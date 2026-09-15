@@ -15,7 +15,7 @@ interface PdfPageViewProps {
   onSelectItem?: (id: string) => void;
   selectedId: string | null;
   activePlacementMode: "signature" | "text" | null;
-  onPageClick?: (percentX: number, percentY: number) => void;
+  onPageClick?: (percentX: number, percentY: number, widthPercent: number, heightPercent: number) => void;
 }
 
 export default function PdfPageView({
@@ -101,29 +101,32 @@ export default function PdfPageView({
   const ghostBoxRef = useRef<HTMLDivElement | null>(null);
   const isInsideRef = useRef(false);
 
-  // Ukuran kotak preview sesuai default ttd (25% x 12%) atau teks (25% x 6%)
-  const boxWidthPercent = 25;
-  const boxHeightPercent = activePlacementMode === "text" ? 6 : 12;
+  // Ukuran standar tetap (fixed size) saat zoom 1.0 (100%):
+  // Signature: 160px x 70px
+  // Text: 180px x 36px
+  const baseBoxWidth = activePlacementMode === "text" ? 180 : 160;
+  const baseBoxHeight = activePlacementMode === "text" ? 36 : 70;
+
+  // Ukuran visual preview mengikuti zoom saat ini
+  const currentBoxWidth = baseBoxWidth * zoom;
+  const currentBoxHeight = baseBoxHeight * zoom;
 
   const handleContainerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!activePlacementMode || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const clickY = e.clientY - rect.top;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
 
-    const percentX = (clickX / rect.width) * 100;
-    const percentY = (clickY / rect.height) * 100;
-
-    const boundedX = Math.max(0, Math.min(100 - boxWidthPercent, percentX - boxWidthPercent / 2));
-    const boundedY = Math.max(0, Math.min(100 - boxHeightPercent, percentY - boxHeightPercent / 2));
+    const boundedX = Math.max(0, Math.min(rect.width - currentBoxWidth, mouseX - currentBoxWidth / 2));
+    const boundedY = Math.max(0, Math.min(rect.height - currentBoxHeight, mouseY - currentBoxHeight / 2));
 
     if (ghostBoxRef.current) {
       if (!isInsideRef.current) {
         ghostBoxRef.current.style.display = "flex";
         isInsideRef.current = true;
       }
-      ghostBoxRef.current.style.left = `${boundedX}%`;
-      ghostBoxRef.current.style.top = `${boundedY}%`;
+      ghostBoxRef.current.style.left = `${boundedX}px`;
+      ghostBoxRef.current.style.top = `${boundedY}px`;
     }
   };
 
@@ -141,17 +144,23 @@ export default function PdfPageView({
     }
 
     const rect = containerRef.current.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const clickY = e.clientY - rect.top;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Centered placement based on current dimensions
+    const clickX = Math.max(0, Math.min(rect.width - currentBoxWidth, mouseX - currentBoxWidth / 2));
+    const clickY = Math.max(0, Math.min(rect.height - currentBoxHeight, mouseY - currentBoxHeight / 2));
 
     const percentX = (clickX / rect.width) * 100;
     const percentY = (clickY / rect.height) * 100;
+    const widthPercent = (currentBoxWidth / rect.width) * 100;
+    const heightPercent = (currentBoxHeight / rect.height) * 100;
 
     if (ghostBoxRef.current) {
       ghostBoxRef.current.style.display = "none";
       isInsideRef.current = false;
     }
-    onPageClick(percentX, percentY);
+    onPageClick(percentX, percentY, widthPercent, heightPercent);
   };
 
   return (
@@ -178,14 +187,14 @@ export default function PdfPageView({
         className="rounded-2xl"
       />
 
-      {/* Floating Ghost Box langsung sinkron dengan kursor tanpa re-render delay */}
+      {/* Floating Ghost Box dengan ukuran tetap persis di semua tipe PDF */}
       {activePlacementMode && (
         <div
           ref={ghostBoxRef}
           style={{
             position: "absolute",
-            width: `${boxWidthPercent}%`,
-            height: `${boxHeightPercent}%`,
+            width: `${currentBoxWidth}px`,
+            height: `${currentBoxHeight}px`,
             display: "none",
             willChange: "left, top",
           }}

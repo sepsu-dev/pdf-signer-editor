@@ -196,7 +196,7 @@ export default function OverlayLayer({
           >
             {/* Action buttons (Top-Right): Edit & Delete - visible on hover or when selected */}
             <div
-              className={`drag-ignore absolute -top-3 -right-3 flex items-center gap-1 z-30 transition-opacity transition-transform ${
+              className={`drag-ignore absolute -top-3.5 -right-3.5 flex items-center gap-1.5 z-30 transition-opacity transition-transform ${
                 isSelected ? "opacity-100 scale-100" : "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100"
               }`}
             >
@@ -208,10 +208,10 @@ export default function OverlayLayer({
                     e.stopPropagation();
                     onEditItem(item);
                   }}
-                  className="w-5 h-5 rounded-full bg-slate-800 hover:bg-slate-900 text-white flex items-center justify-center shadow-md transition-colors cursor-pointer"
+                  className="w-6 h-6 sm:w-5 sm:h-5 rounded-full bg-slate-800 hover:bg-slate-900 active:bg-black text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
                   title="Edit item"
                 >
-                  <Pencil className="w-2.5 h-2.5" />
+                  <Pencil className="w-3 h-3 sm:w-2.5 sm:h-2.5" />
                 </button>
               )}
 
@@ -222,10 +222,10 @@ export default function OverlayLayer({
                   e.stopPropagation();
                   onDeleteItem(item.id);
                 }}
-                className="w-5 h-5 rounded-full bg-rose-500 hover:bg-rose-600 text-white flex items-center justify-center shadow-md transition-colors cursor-pointer"
+                className="w-6 h-6 sm:w-5 sm:h-5 rounded-full bg-rose-500 hover:bg-rose-600 active:bg-rose-700 text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
                 title="Delete item"
               >
-                <Trash2 className="w-2.5 h-2.5" />
+                <Trash2 className="w-3 h-3 sm:w-2.5 sm:h-2.5" />
               </button>
             </div>
 
@@ -258,11 +258,13 @@ export default function OverlayLayer({
             {/* Resize Handle (Bottom-Right) - visible on hover or when selected */}
             <div
               onPointerDown={(e) => handleResizePointerDown(e, item)}
-              className={`drag-ignore absolute -bottom-1.5 -right-1.5 w-3.5 h-3.5 bg-rose-500 border-2 border-white rounded-xs cursor-nwse-resize shadow-xs z-30 transition-opacity transition-transform ${
+              className={`drag-ignore absolute -bottom-2 -right-2 w-5 h-5 sm:w-4 sm:h-4 bg-rose-500 border-2 border-white rounded-xs cursor-nwse-resize shadow-md z-30 transition-opacity transition-transform flex items-center justify-center ${
                 isSelected ? "opacity-100 scale-100" : "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100"
               }`}
               title="Drag to resize"
-            />
+            >
+              <div className="w-1.5 h-1.5 bg-white/70 rounded-full sm:hidden" />
+            </div>
           </div>
         );
       })}

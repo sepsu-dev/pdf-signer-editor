@@ -66,7 +66,7 @@ export default function TextModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-3.5 sm:space-y-4">
           <div>
             <label className="block text-xs font-semibold text-slate-600 mb-1.5">
               Text / Name / Title

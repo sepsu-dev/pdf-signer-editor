@@ -271,7 +271,7 @@ export default function SignatureModal({
         </div>
 
         {/* Body */}
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
           {tab === "draw" ? (
             <div className="space-y-3">
               <div className="relative border-2 border-dashed border-rose-200/80 rounded-2xl bg-rose-50/20 hover:bg-white transition-colors overflow-hidden">
@@ -284,7 +284,7 @@ export default function SignatureModal({
                   onTouchStart={startDrawing}
                   onTouchMove={draw}
                   onTouchEnd={stopDrawing}
-                  className="w-full h-48 block cursor-crosshair touch-none"
+                  className="w-full h-44 sm:h-48 block cursor-crosshair touch-none"
                 />
                 {!hasDrawn && (
                   <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center text-slate-400 text-xs">
@@ -295,11 +295,11 @@ export default function SignatureModal({
               </div>
 
               {/* Controls */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-600 pt-2 border-t border-slate-100">
-                <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-slate-600 pt-2 border-t border-slate-100">
+                <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-between sm:justify-start">
                   {/* Color Selector */}
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-slate-500">Color:</span>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="font-medium text-slate-500 text-[11px] sm:text-xs">Color:</span>
                     <div className="flex gap-1.5">
                       {["#000000", "#be123c", "#1e3a8a"].map((c) => (
                         <button
@@ -318,9 +318,9 @@ export default function SignatureModal({
                   </div>
 
                   {/* Stroke Thickness / Ketebalan Slider */}
-                  <div className="flex items-center gap-2.5">
-                    <span className="font-medium text-slate-500">Thickness:</span>
-                    <div className="flex items-center gap-2 bg-slate-50 px-2.5 py-1 rounded-2xl border border-slate-200">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="font-medium text-slate-500 text-[11px] sm:text-xs">Thickness:</span>
+                    <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-50 px-2 py-1 rounded-2xl border border-slate-200">
                       <input
                         type="range"
                         min="1"
@@ -328,19 +328,19 @@ export default function SignatureModal({
                         step="0.5"
                         value={strokeWidth}
                         onChange={(e) => setStrokeWidth(parseFloat(e.target.value))}
-                        className="w-20 sm:w-24 cursor-pointer accent-rose-500"
+                        className="w-16 sm:w-24 cursor-pointer accent-rose-500"
                         title={`Stroke Width: ${strokeWidth}px`}
                       />
-                      <div className="flex items-center gap-1.5 min-w-[50px]">
+                      <div className="flex items-center gap-1 min-w-[42px] sm:min-w-[48px]">
                         <span
                           className="rounded-full inline-block shrink-0 transition-all"
                           style={{
-                            width: `${Math.max(3, Math.min(10, strokeWidth * 2))}px`,
-                            height: `${Math.max(3, Math.min(10, strokeWidth * 2))}px`,
+                            width: `${Math.max(3, Math.min(8, strokeWidth * 2))}px`,
+                            height: `${Math.max(3, Math.min(8, strokeWidth * 2))}px`,
                             backgroundColor: penColor,
                           }}
                         />
-                        <span className="text-[11px] font-semibold text-slate-700">
+                        <span className="text-[10px] sm:text-[11px] font-semibold text-slate-700">
                           {strokeWidth}px
                         </span>
                       </div>
