@@ -1,0 +1,55 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-plus-jakarta);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --primary: #e11d48;
+  --primary-foreground: #ffffff;
+  --muted: #fff1f2;
+  --muted-foreground: #64748b;
+  --border: #fecdd3;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans, system-ui, sans-serif);
+  }
+}
+
+@keyframes fadeScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@utility animate-fade-scale-in {
+  animation: fadeScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}

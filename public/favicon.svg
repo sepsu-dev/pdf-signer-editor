@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Outer squircle rounded container -->
+  <rect width="48" height="48" rx="14" fill="#e11d48"/>
+  
+  <!-- Document paper background -->
+  <path d="M14 11C14 9.89543 14.8954 9 16 9H27L34 16V37C34 38.1046 33.1046 39 32 39H16C14.8954 39 14 38.1046 14 37V11Z" fill="white" fill-opacity="0.95"/>
+  
+  <!-- Document folded corner -->
+  <path d="M27 9V16H34" fill="#fecdd3"/>
+  
+  <!-- Upload arrow pointing upwards -->
+  <path d="M24 32V20M24 20L20 24M24 20L28 24" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
