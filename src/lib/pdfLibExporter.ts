@@ -29,18 +29,20 @@ export async function exportSignedPdf(
 
     const page = pages[item.pageIndex];
     const { width: pageWidth, height: pageHeight } = page.getSize();
+    const cropBox = page.getCropBox();
+    const originX = cropBox?.x ?? 0;
+    const originY = cropBox?.y ?? 0;
 
-    // In web preview:
-    // x % is from left: item.x / 100 * pageWidth
-    // y % is from top: item.y / 100 * pageHeight
+    // In web preview (PdfPageView rendered with pdf.js):
+    // x % is from left: (item.x / 100) * pageWidth
+    // y % is from top: (item.y / 100) * pageHeight
     // In pdf-lib coordinates:
     // (0, 0) is at BOTTOM-LEFT
-    // So pdfY = pageHeight - (item.y / 100 * pageHeight) - pdfItemHeight
-
+    // So pdfY = pageHeight - (item.y / 100 * pageHeight) - itemHeightInPdf
     const itemWidthInPdf = (item.width / 100) * pageWidth;
     const itemHeightInPdf = (item.height / 100) * pageHeight;
-    const itemXInPdf = (item.x / 100) * pageWidth;
-    const itemYInPdf = pageHeight - (item.y / 100) * pageHeight - itemHeightInPdf;
+    const itemXInPdf = originX + (item.x / 100) * pageWidth;
+    const itemYInPdf = originY + pageHeight - (item.y / 100) * pageHeight - itemHeightInPdf;
 
     if (item.type === "signature" && item.dataUrl) {
       try {
@@ -54,11 +56,32 @@ export async function exportSignedPdf(
           ? await pdfDoc.embedPng(imageBytes)
           : await pdfDoc.embedJpg(imageBytes);
 
+        // Mimic CSS "object-fit: contain" centered inside the bounding box
+        const imgAspect = embeddedImage.width / (embeddedImage.height || 1);
+        const boxAspect = itemWidthInPdf / (itemHeightInPdf || 1);
+
+        let drawWidth = itemWidthInPdf;
+        let drawHeight = itemHeightInPdf;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        if (imgAspect > boxAspect) {
+          // Image is wider than box: constrained by width
+          drawWidth = itemWidthInPdf;
+          drawHeight = itemWidthInPdf / imgAspect;
+          offsetY = (itemHeightInPdf - drawHeight) / 2;
+        } else {
+          // Image is taller than box: constrained by height
+          drawHeight = itemHeightInPdf;
+          drawWidth = itemHeightInPdf * imgAspect;
+          offsetX = (itemWidthInPdf - drawWidth) / 2;
+        }
+
         page.drawImage(embeddedImage, {
-          x: itemXInPdf,
-          y: itemYInPdf,
-          width: itemWidthInPdf,
-          height: itemHeightInPdf,
+          x: itemXInPdf + offsetX,
+          y: itemYInPdf + offsetY,
+          width: drawWidth,
+          height: drawHeight,
         });
       } catch (err) {
         console.error("Error embedding signature image into PDF:", err);
@@ -74,10 +97,19 @@ export async function exportSignedPdf(
         const scaleFactor = pageWidth / baseDocWidth;
         const fontSize = Math.max(8, (item.fontSize || 14) * scaleFactor);
 
-        // Adjust text baseline so it aligns neatly with the bounding box
+        // In web preview: flex items-center justify-center
+        // We measure text width to center it horizontally inside the box
+        const textWidth = font.widthOfTextAtSize(item.text, fontSize);
+        const textHeight = font.heightAtSize(fontSize);
+
+        // Center horizontally inside itemWidthInPdf
+        const textX = itemXInPdf + Math.max(0, (itemWidthInPdf - textWidth) / 2);
+        // Center vertically inside itemHeightInPdf (pdf-lib y is text baseline)
+        const textY = itemYInPdf + (itemHeightInPdf - textHeight) / 2 + (textHeight * 0.15);
+
         page.drawText(item.text, {
-          x: itemXInPdf,
-          y: itemYInPdf + (itemHeightInPdf * 0.2), // align with text baseline
+          x: textX,
+          y: textY,
           size: fontSize,
           font,
           color,

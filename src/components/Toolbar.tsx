@@ -97,12 +97,8 @@ export default function Toolbar({
       {/* Left: Web Title / Branding & File Info */}
       <div className="flex items-center gap-3 min-w-0">
         {/* Web Brand / Title */}
-        <div
-          onClick={onUploadClick}
-          className="flex items-center gap-2 cursor-pointer select-none group"
-          title="Upload or switch PDF"
-        >
-          <div className="w-7 h-7 rounded-2xl bg-rose-500 group-hover:bg-rose-600 flex items-center justify-center text-white shadow-xs transition-colors">
+        <div className="flex items-center gap-2 select-none">
+          <div className="w-7 h-7 rounded-2xl bg-rose-500 flex items-center justify-center text-white shadow-xs">
             <FileUp className="w-4 h-4" />
           </div>
           <span className="font-bold text-sm tracking-tight text-slate-800">

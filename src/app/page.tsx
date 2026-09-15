@@ -220,7 +220,7 @@ export default function Home() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       const baseName = pdfFileName ? pdfFileName.replace(/\.[^/.]+$/, "") : "document";
-      link.download = `${baseName}-signed.pdf`;
+      link.download = `${baseName}.pdf`;
       link.href = url;
       link.click();
       URL.revokeObjectURL(url);
