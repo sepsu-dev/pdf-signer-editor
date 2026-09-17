@@ -190,6 +190,7 @@ export default function Home() {
     fontSize: number;
     color: string;
     isBold: boolean;
+    fontFamily: "Helvetica" | "TimesRoman" | "Courier";
   }) => {
     if (editingItem) {
       // Mode edit existing item
@@ -198,6 +199,7 @@ export default function Home() {
         fontSize: data.fontSize,
         color: data.color,
         isBold: data.isBold,
+        fontFamily: data.fontFamily,
       });
       setEditingItem(null);
     } else {
@@ -219,6 +221,7 @@ export default function Home() {
         fontSize: data.fontSize,
         color: data.color,
         isBold: data.isBold,
+        fontFamily: data.fontFamily,
       };
       setOverlayItems((prev) => [...prev, newItem]);
       setSelectedItemId(newItem.id);
@@ -513,6 +516,7 @@ export default function Home() {
         initialFontSize={editingItem?.type === "text" ? editingItem.fontSize : 14}
         initialColor={editingItem?.type === "text" ? editingItem.color : "#000000"}
         initialIsBold={editingItem?.type === "text" ? editingItem.isBold : false}
+        initialFontFamily={editingItem?.type === "text" ? editingItem.fontFamily : "Helvetica"}
       />
     </div>
   );

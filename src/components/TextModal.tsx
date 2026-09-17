@@ -6,11 +6,18 @@ import { Type, Check, X } from "lucide-react";
 interface TextModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (data: { text: string; fontSize: number; color: string; isBold: boolean }) => void;
+  onSave: (data: {
+    text: string;
+    fontSize: number;
+    color: string;
+    isBold: boolean;
+    fontFamily: "Helvetica" | "TimesRoman" | "Courier";
+  }) => void;
   initialText?: string;
   initialFontSize?: number;
   initialColor?: string;
   initialIsBold?: boolean;
+  initialFontFamily?: "Helvetica" | "TimesRoman" | "Courier";
 }
 
 export default function TextModal({
@@ -21,11 +28,13 @@ export default function TextModal({
   initialFontSize = 14,
   initialColor = "#000000",
   initialIsBold = false,
+  initialFontFamily = "Helvetica",
 }: TextModalProps) {
   const [text, setText] = useState(initialText);
   const [fontSize, setFontSize] = useState(initialFontSize);
   const [color, setColor] = useState(initialColor);
   const [isBold, setIsBold] = useState(initialIsBold);
+  const [fontFamily, setFontFamily] = useState<"Helvetica" | "TimesRoman" | "Courier">(initialFontFamily);
 
   useEffect(() => {
     if (isOpen) {
@@ -33,16 +42,29 @@ export default function TextModal({
       setFontSize(initialFontSize || 14);
       setColor(initialColor || "#000000");
       setIsBold(!!initialIsBold);
+      setFontFamily(initialFontFamily || "Helvetica");
     }
-  }, [isOpen, initialText, initialFontSize, initialColor, initialIsBold]);
+  }, [isOpen, initialText, initialFontSize, initialColor, initialIsBold, initialFontFamily]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!text.trim()) return;
-    onSave({ text: text.trim(), fontSize, color, isBold });
+    onSave({ text: text.trim(), fontSize, color, isBold, fontFamily });
     onClose();
+  };
+
+  const getCssFontFamily = (f: "Helvetica" | "TimesRoman" | "Courier") => {
+    switch (f) {
+      case "TimesRoman":
+        return "Times New Roman, Times, serif";
+      case "Courier":
+        return "Courier New, Courier, monospace";
+      case "Helvetica":
+      default:
+        return "var(--font-plus-jakarta, Helvetica, Arial, sans-serif)";
+    }
   };
 
   return (
@@ -79,6 +101,34 @@ export default function TextModal({
               autoFocus
               className="w-full px-3.5 py-2.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-400 text-sm text-slate-800 transition-all"
             />
+          </div>
+
+          {/* Font Type Selection */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+              Font Family
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { key: "Helvetica", label: "Sans (Modern)", style: "Helvetica, Arial, sans-serif" },
+                { key: "TimesRoman", label: "Serif (Formal)", style: "Times New Roman, serif" },
+                { key: "Courier", label: "Mono (Courier)", style: "Courier New, monospace" },
+              ].map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => setFontFamily(item.key as any)}
+                  className={`py-2 px-2.5 rounded-2xl border text-xs font-medium transition-all text-center cursor-pointer ${
+                    fontFamily === item.key
+                      ? "bg-rose-50 border-rose-400 text-rose-700 shadow-2xs font-semibold"
+                      : "bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50/70"
+                  }`}
+                  style={{ fontFamily: item.style }}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -175,6 +225,7 @@ export default function TextModal({
                   fontSize: `${fontSize}px`,
                   color,
                   fontWeight: isBold ? 700 : 400,
+                  fontFamily: getCssFontFamily(fontFamily),
                 }}
               >
                 {text || "Sample Text"}
@@ -204,3 +255,4 @@ export default function TextModal({
     </div>
   );
 }
+

@@ -53,3 +53,9 @@
 @utility animate-fade-scale-in {
   animation: fadeScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+@utility cursor-pencil {
+  cursor: url("/pencil-cursor.svg") 0 32, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cg%3E%3Cpolygon points='5,22 19,8 24,13 10,27' fill='%23f59e0b' stroke='%2378350f' stroke-width='1'/%3E%3Cline x1='8' y1='25' x2='22' y2='11' stroke='%23fbbf24' stroke-width='1.5'/%3E%3Cpolygon points='5,22 10,27 0,32' fill='%23fef3c7' stroke='%2378350f' stroke-width='1'/%3E%3Ccircle cx='1' cy='31' r='1.5' fill='%2309090b'/%3E%3Cpolygon points='19,8 24,13 26,11 21,6' fill='%23cbd5e1' stroke='%23475569' stroke-width='1'/%3E%3Cpolygon points='21,6 26,11 29,8 24,3' fill='%23fb7185' stroke='%239f1239' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E") 0 32, crosshair;
+}
+
+

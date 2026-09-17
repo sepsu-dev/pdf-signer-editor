@@ -13,4 +13,5 @@ export interface OverlayItem {
   fontSize?: number; // visual font size at base 100% scale
   color?: string;
   isBold?: boolean;
+  fontFamily?: "Helvetica" | "TimesRoman" | "Courier";
 }

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "KritQR — Generate QR Code Online Gratis";
+export const alt = "PDF Signer Editor — Free Online Document Signing & Annotation";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -15,7 +15,7 @@ export default function OpengraphImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)",
+          background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #e11d48 100%)",
           fontFamily: "system-ui, sans-serif",
           color: "white",
         }}
@@ -28,73 +28,44 @@ export default function OpengraphImage() {
             marginBottom: 24,
           }}
         >
+          {/* Document Icon Box */}
           <div
             style={{
               display: "flex",
-              gap: 10,
-              background: "white",
-              padding: 20,
-              borderRadius: 16,
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#e11d48",
+              width: 110,
+              height: 110,
+              borderRadius: 28,
+              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.4)",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 10,
-              }}
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  background: "#0f172a",
-                  borderRadius: 4,
-                }}
-              />
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  background: "#0f172a",
-                  borderRadius: 4,
-                }}
-              />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 10,
-              }}
-            >
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  background: "#0f172a",
-                  borderRadius: 4,
-                }}
-              />
-              <div
-                style={{
-                  width: 16,
-                  height: 16,
-                  background: "#0f172a",
-                  borderRadius: 4,
-                }}
-              />
-            </div>
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <path d="M12 18v-6" />
+              <path d="m9 15 3-3 3 3" />
+            </svg>
           </div>
-          <div style={{ fontSize: 96, fontWeight: 800, letterSpacing: -3 }}>
-            KritQR
+          <div style={{ fontSize: 84, fontWeight: 800, letterSpacing: -2 }}>
+            PDF <span style={{ color: "#fb7185" }}>Signer</span>
           </div>
         </div>
-        <div style={{ fontSize: 40, opacity: 0.9 }}>
-          Generate QR Code Online Gratis
+        <div style={{ fontSize: 36, fontWeight: 500, opacity: 0.95, textAlign: "center", maxWidth: 900 }}>
+          Free Online Document Signing &amp; Text Annotation
         </div>
-        <div style={{ fontSize: 28, opacity: 0.7, marginTop: 16 }}>
-          kritqr.my.id
+        <div style={{ fontSize: 24, opacity: 0.75, marginTop: 20, letterSpacing: 0.5 }}>
+          Client-side • Fast • Secure • No File Uploads
         </div>
       </div>
     ),

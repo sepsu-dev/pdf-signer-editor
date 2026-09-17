@@ -247,8 +247,14 @@ export default function OverlayLayer({
                     fontSize: `${(item.fontSize || 14) * zoom}px`,
                     color: item.color || "#000000",
                     fontWeight: item.isBold ? 700 : 400,
+                    fontFamily:
+                      item.fontFamily === "TimesRoman"
+                        ? "Times New Roman, Times, serif"
+                        : item.fontFamily === "Courier"
+                        ? "Courier New, Courier, monospace"
+                        : "var(--font-plus-jakarta, Helvetica, Arial, sans-serif)",
                   }}
-                  className="whitespace-nowrap select-none font-sans px-1"
+                  className="whitespace-nowrap select-none px-1"
                 >
                   {item.text}
                 </span>

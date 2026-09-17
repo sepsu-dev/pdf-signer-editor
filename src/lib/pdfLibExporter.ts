@@ -21,8 +21,12 @@ export async function exportSignedPdf(
 ): Promise<Uint8Array> {
   const pdfDoc = await PDFDocument.load(originalPdfBytes);
   const pages = pdfDoc.getPages();
-  const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const fontHelvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const fontHelveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const fontTimes = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+  const fontTimesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
+  const fontCourier = await pdfDoc.embedFont(StandardFonts.Courier);
+  const fontCourierBold = await pdfDoc.embedFont(StandardFonts.CourierBold);
 
   for (const item of items) {
     if (item.pageIndex < 0 || item.pageIndex >= pages.length) continue;
@@ -88,7 +92,13 @@ export async function exportSignedPdf(
       }
     } else if (item.type === "text" && item.text) {
       try {
-        const font = item.isBold ? fontBold : fontRegular;
+        let font = item.isBold ? fontHelveticaBold : fontHelvetica;
+        if (item.fontFamily === "TimesRoman") {
+          font = item.isBold ? fontTimesBold : fontTimes;
+        } else if (item.fontFamily === "Courier") {
+          font = item.isBold ? fontCourierBold : fontCourier;
+        }
+
         const color = item.color ? hexToRgbColor(item.color) : rgb(0, 0, 0);
 
         // Calculate proportional font size according to original page width
