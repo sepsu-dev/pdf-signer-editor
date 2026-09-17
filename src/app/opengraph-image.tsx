@@ -57,14 +57,40 @@ export default function OpengraphImage() {
               <path d="m9 15 3-3 3 3" />
             </svg>
           </div>
-          <div style={{ fontSize: 84, fontWeight: 800, letterSpacing: -2 }}>
-            PDF <span style={{ color: "#fb7185" }}>Signer</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: 84,
+              fontWeight: 800,
+              letterSpacing: -2,
+            }}
+          >
+            <span>PDF</span>
+            <span style={{ color: "#fb7185", marginLeft: 16 }}>Signer</span>
           </div>
         </div>
-        <div style={{ fontSize: 36, fontWeight: 500, opacity: 0.95, textAlign: "center", maxWidth: 900 }}>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 36,
+            fontWeight: 500,
+            opacity: 0.95,
+            textAlign: "center",
+            maxWidth: 900,
+          }}
+        >
           Free Online Document Signing &amp; Text Annotation
         </div>
-        <div style={{ fontSize: 24, opacity: 0.75, marginTop: 20, letterSpacing: 0.5 }}>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 24,
+            opacity: 0.75,
+            marginTop: 20,
+            letterSpacing: 0.5,
+          }}
+        >
           Client-side • Fast • Secure • No File Uploads
         </div>
       </div>

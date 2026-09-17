@@ -8,6 +8,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://pdf-signer-editor.vercel.app"
+  ),
   title: {
     default: "PDF Signer Editor — Free Online Document Signing & Text Annotation",
     template: "%s | PDF Signer Editor",

@@ -101,21 +101,19 @@ export async function exportSignedPdf(
 
         const color = item.color ? hexToRgbColor(item.color) : rgb(0, 0, 0);
 
-        // Calculate proportional font size according to original page width
-        // Base preview width is ~800px standard viewport width
-        const baseDocWidth = 800;
-        const scaleFactor = pageWidth / baseDocWidth;
-        const fontSize = Math.max(8, (item.fontSize || 14) * scaleFactor);
+        // In web preview, 1 CSS pixel at 100% zoom corresponds 1:1 to 1 PDF point (72 DPI).
+        // Using an arbitrary baseDocWidth (800) caused font shrinking on A4 (595pt) and horizontal/vertical misalignment.
+        const fontSize = Math.max(6, item.fontSize || 14);
 
         // In web preview: flex items-center justify-center
         // We measure text width to center it horizontally inside the box
         const textWidth = font.widthOfTextAtSize(item.text, fontSize);
         const textHeight = font.heightAtSize(fontSize);
 
-        // Center horizontally inside itemWidthInPdf
+        // Center horizontally inside itemWidthInPdf (matching flex items-center justify-center)
         const textX = itemXInPdf + Math.max(0, (itemWidthInPdf - textWidth) / 2);
-        // Center vertically inside itemHeightInPdf (pdf-lib y is text baseline)
-        const textY = itemYInPdf + (itemHeightInPdf - textHeight) / 2 + (textHeight * 0.15);
+        // Center vertically inside itemHeightInPdf (pdf-lib y is baseline; add font baseline offset)
+        const textY = itemYInPdf + (itemHeightInPdf - textHeight) / 2 + (textHeight * 0.2);
 
         page.drawText(item.text, {
           x: textX,
