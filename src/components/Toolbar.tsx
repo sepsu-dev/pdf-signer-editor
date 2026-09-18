@@ -251,10 +251,30 @@ export default function Toolbar({
             </button>
           </div>
 
-          {/* Compact Page Indicator on mobile (< md) */}
+          {/* Mobile Page Navigation (< md) */}
           {hasFile && (
-            <div className="flex md:hidden items-center bg-slate-100 rounded-2xl px-2 py-1 text-[11px] font-semibold text-slate-700 border border-slate-200">
-              <span>{currentPage}/{totalPages}</span>
+            <div className="flex md:hidden items-center bg-slate-100/90 rounded-2xl p-0.5 border border-slate-200 shrink-0">
+              <button
+                type="button"
+                disabled={currentPage <= 1}
+                onClick={() => onPageChange(currentPage - 1)}
+                className="p-1 rounded-xl text-slate-600 active:bg-white disabled:opacity-25 transition-all cursor-pointer"
+                title="Previous Page"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+              </button>
+              <span className="px-1 text-[11px] font-bold text-slate-700 select-none">
+                {currentPage}/{totalPages}
+              </span>
+              <button
+                type="button"
+                disabled={currentPage >= totalPages}
+                onClick={() => onPageChange(currentPage + 1)}
+                className="p-1 rounded-xl text-slate-600 active:bg-white disabled:opacity-25 transition-all cursor-pointer"
+                title="Next Page"
+              >
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
             </div>
           )}
 

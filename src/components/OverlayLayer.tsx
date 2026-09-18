@@ -188,17 +188,15 @@ export default function OverlayLayer({
               height: `${item.height}%`,
               willChange: isDraggingThis || isResizingThis ? "left, top, width, height" : "auto",
             }}
-            className={`pointer-events-auto cursor-move group select-none touch-none rounded-2xl ${
-              isSelected
+            className={`pointer-events-auto cursor-move group select-none touch-none rounded-2xl ${isSelected
                 ? "border border-dashed border-rose-500 bg-rose-500/5 shadow-xs"
                 : "border border-transparent hover:border hover:border-dashed hover:border-rose-400 hover:bg-rose-500/5"
-            }`}
+              }`}
           >
             {/* Action buttons (Top-Right): Edit & Delete - visible on hover or when selected */}
             <div
-              className={`drag-ignore absolute -top-3.5 -right-3.5 flex items-center gap-1.5 z-30 transition-opacity transition-transform ${
-                isSelected ? "opacity-100 scale-100" : "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100"
-              }`}
+              className={`drag-ignore absolute -top-3.5 -right-3.5 flex items-center gap-1.5 z-30 transition-opacity transition-transform ${isSelected ? "opacity-100 scale-100" : "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100"
+                }`}
             >
               {/* Edit button */}
               {onEditItem && (
@@ -251,8 +249,8 @@ export default function OverlayLayer({
                       item.fontFamily === "TimesRoman"
                         ? "Times New Roman, Times, serif"
                         : item.fontFamily === "Courier"
-                        ? "Courier New, Courier, monospace"
-                        : "var(--font-plus-jakarta, Helvetica, Arial, sans-serif)",
+                          ? "Courier New, Courier, monospace"
+                          : "var(--font-plus-jakarta, Helvetica, Arial, sans-serif)",
                   }}
                   className="whitespace-nowrap select-none px-1"
                 >
@@ -264,9 +262,8 @@ export default function OverlayLayer({
             {/* Resize Handle (Bottom-Right) - visible on hover or when selected */}
             <div
               onPointerDown={(e) => handleResizePointerDown(e, item)}
-              className={`drag-ignore absolute -bottom-2 -right-2 w-5 h-5 sm:w-4 sm:h-4 bg-rose-500 border-2 border-white rounded-xs cursor-nwse-resize shadow-md z-30 transition-opacity transition-transform flex items-center justify-center ${
-                isSelected ? "opacity-100 scale-100" : "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100"
-              }`}
+              className={`drag-ignore absolute -bottom-2 -right-2 w-5 h-5 sm:w-4 sm:h-4 bg-rose-500 border-2 border-white rounded-xs cursor-nwse-resize shadow-md z-30 transition-opacity transition-transform flex items-center justify-center ${isSelected ? "opacity-100 scale-100" : "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100"
+                }`}
               title="Drag to resize"
             >
               <div className="w-1.5 h-1.5 bg-white/70 rounded-full sm:hidden" />

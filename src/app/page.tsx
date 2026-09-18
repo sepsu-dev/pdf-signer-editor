@@ -109,7 +109,7 @@ export default function Home() {
     }
   };
 
-  // User klik tombol di Toolbar
+  // User klik tombol Signature
   const handleToggleSignatureMode = () => {
     if (activePlacementMode === "signature") {
       setActivePlacementMode(null);
@@ -118,6 +118,7 @@ export default function Home() {
     }
   };
 
+  // User klik tombol Text
   const handleToggleTextMode = () => {
     if (activePlacementMode === "text") {
       setActivePlacementMode(null);
@@ -413,35 +414,10 @@ export default function Home() {
 
       {/* Mobile Bottom Floating Action Bar (Visible only on screens < md and when a PDF is open) */}
       {pdfDocument && (
-        <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-30 md:hidden w-[95%] max-w-sm">
-          <div className="flex items-center justify-between gap-1 p-1.5 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-xl">
-            {/* Page Nav */}
-            <div className="flex items-center bg-slate-100/90 rounded-2xl p-0.5 border border-slate-200">
-              <button
-                type="button"
-                disabled={currentPage <= 1}
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                className="p-1.5 rounded-2xl text-slate-600 hover:text-slate-900 active:bg-white disabled:opacity-25 transition-all cursor-pointer"
-                title="Previous Page"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <span className="px-1.5 text-[11px] font-bold text-slate-700 select-none">
-                {currentPage}/{totalPages}
-              </span>
-              <button
-                type="button"
-                disabled={currentPage >= totalPages}
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                className="p-1.5 rounded-2xl text-slate-600 hover:text-slate-900 active:bg-white disabled:opacity-25 transition-all cursor-pointer"
-                title="Next Page"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
+        <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] left-1/2 -translate-x-1/2 z-30 md:hidden w-auto max-w-[95vw]">
+          <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-xl">
             {/* Quick Zoom In / Out */}
-            <div className="flex items-center bg-slate-100/90 rounded-2xl p-0.5 border border-slate-200">
+            <div className="flex items-center bg-slate-100/90 rounded-2xl p-0.5 border border-slate-200 shrink-0">
               <button
                 type="button"
                 onClick={() => setZoom((z) => Math.max(0.4, +(z - 0.15).toFixed(2)))}
@@ -467,7 +443,7 @@ export default function Home() {
             <button
               type="button"
               onClick={handleToggleSignatureMode}
-              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer shadow-2xs ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer shadow-2xs shrink-0 ${
                 activePlacementMode === "signature"
                   ? "bg-rose-500 text-white"
                   : "bg-slate-100 text-slate-700 border border-slate-200 active:bg-slate-200 hover:text-rose-600"
@@ -481,7 +457,7 @@ export default function Home() {
             <button
               type="button"
               onClick={handleToggleTextMode}
-              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer shadow-2xs ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer shadow-2xs shrink-0 ${
                 activePlacementMode === "text"
                   ? "bg-rose-500 text-white"
                   : "bg-slate-100 text-slate-700 border border-slate-200 active:bg-slate-200"
